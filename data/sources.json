@@ -1,0 +1,8 @@
+[
+  {"id":"pares-agi","title":"Archivo General de Indias","publisher":"PARES / Ministerio de Cultura","source_type":"archivo publico","url":"https://pares.cultura.gob.es/ParesBusquedas20/catalogo/description/10","languages":["es"],"keywords":["armadas","flotas","canarias","navegacion","naufragio"],"access_date":"2026-10-27","status":"catalogued"},
+  {"id":"bne-digital","title":"BNE Digital y Hemeroteca Digital","publisher":"Biblioteca Nacional de España","source_type":"biblioteca digital","url":"https://www.bne.es/es/catalogos/biblioteca-digital-hispanica","languages":["es"],"keywords":["prensa","mapas","manuscritos","naufragio"],"access_date":"2026-10-27","status":"catalogued"},
+  {"id":"gallica","title":"Gallica: prensa, mapas y portulanos","publisher":"Bibliothèque nationale de France","source_type":"biblioteca digital","url":"https://gallica.bnf.fr/accueil/fr/html/aide-a-la-recherche","languages":["fr"],"keywords":["presse","cartes","portulans","naufrage"],"access_date":"2026-10-27","status":"catalogued"},
+  {"id":"loc-charts","title":"Nautical Charts","publisher":"Library of Congress","source_type":"cartografia historica","url":"https://guides.loc.gov/nautical-charts","languages":["en"],"keywords":["charts","wrecks","navigation","maps"],"access_date":"2026-10-27","status":"catalogued"},
+  {"id":"rnod","title":"Registo Nacional de Objectos Digitais","publisher":"Biblioteca Nacional de Portugal","source_type":"agregador digital","url":"https://rnod.bnportugal.gov.pt/","languages":["pt"],"keywords":["cartografia","periodicos","manuscritos","naufragio"],"access_date":"2026-10-27","status":"catalogued"}
+]
+
