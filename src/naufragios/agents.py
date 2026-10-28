@@ -102,10 +102,18 @@ class ContradictionDetector:
     name = "contraste"
 
     def compare(self, hits: list[SearchHit]) -> list[dict[str, Any]]:
-        dates = Counter(hit.evidence.date for hit in hits if hit.evidence.date)
+        # Los rangos del catálogo describen fondos, no fechas de naufragios.
+        # Solo se contrastan años exactos ligados a una entidad barco.
+        event_hits = [
+            hit for hit in hits
+            if hit.evidence.date
+            and re.fullmatch(r"\d{4}", hit.evidence.date)
+            and hit.evidence.entities.get("ship")
+        ]
+        dates = Counter(hit.evidence.date for hit in event_hits)
         if len(dates) < 2:
             return []
-        return [{"agent": self.name, "type": "date_conflict", "values": dict(dates), "evidence_ids": [hit.evidence.id for hit in hits]}]
+        return [{"agent": self.name, "type": "date_conflict", "values": dict(dates), "evidence_ids": [hit.evidence.id for hit in event_hits]}]
 
 
 class CartographyAgent:
