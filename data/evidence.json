@@ -1,0 +1,6 @@
+[
+  {"id":"fixture-santa-ana-01","source_id":"pares-agi","title":"Registro de prueba: naufragio del navío Santa Ana","text":"Evidencia sintética para pruebas del flujo. El navío Santa Ana navegaba hacia Canarias y se perdió en 1687 durante un temporal.","quote":"EVIDENCIA SINTÉTICA: no atribuir este texto a PARES ni presentarlo como hecho histórico.","date":"1687","entities":{"ship":["Santa Ana"],"place":["Canarias"]},"location":{"lat":28.2916,"lon":-16.6291,"uncertainty_m":25000},"verification":"synthetic_fixture"},
+  {"id":"catalog-agi-armadas","source_id":"pares-agi","title":"Armadas y flotas en el Archivo General de Indias","text":"Catálogo oficial de documentación sobre armadas, flotas y navegación, útil para descubrir expedientes relacionados con pérdidas y arribadas.","quote":"La ficha de PARES identifica las agrupaciones Armadas y Flotas y Armadas, Flotas y Navegación.","date":"1525-1818","entities":{"place":["Canarias"]},"verification":"catalogue_verified"},
+  {"id":"catalog-loc-wrecks","source_id":"loc-charts","title":"Cartas náuticas históricas y peligros de navegación","text":"Guía oficial de cartas náuticas históricas que pueden registrar arrecifes, peligros, derroteros y naufragios.","quote":"Las cartas pueden registrar peligros de navegación y naufragios.","entities":{"place":["Canarias"]},"verification":"catalogue_verified"}
+]
+
