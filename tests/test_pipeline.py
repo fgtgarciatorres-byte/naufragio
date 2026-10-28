@@ -44,6 +44,10 @@ class PipelineTests(unittest.TestCase):
         result = ResearchOrchestrator(store()).run("Canarias")
         json.dumps(result, ensure_ascii=False)
 
+    def test_catalogue_date_ranges_are_not_event_conflicts(self):
+        result = ResearchOrchestrator(store()).run("Armadas Canarias")
+        self.assertEqual(result["contradictions"], [])
+
     def test_online_source_scanner_records_origin_and_status(self):
         source = next(iter(store().sources.values()))
         scanner = SourceResearcher(fetcher=lambda url: "Armadas y flotas Canarias")
