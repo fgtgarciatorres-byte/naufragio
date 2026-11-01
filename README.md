@@ -1,11 +1,21 @@
 # Naufragios
 
-Herramienta auditable para investigar naufragios históricos de Canarias y sus rutas atlánticas hasta 1800.
+Herramienta auditable para investigar naufragios hist�ricos de Canarias y sus rutas atl�nticas hasta 1800.
 
-La primera versión contiene agentes deterministas que pueden ejecutarse sin una API de IA:
+## Atlas visual
 
-- `investigador_de_fuentes`: descubre y registra nuevas fuentes del catálogo local.
-- `buscador_de_evidencias`: recupera evidencias por términos y variantes.
+La interfaz est� en `index.html` y funciona como una carta de investigaci�n: carga `data/atlas.json`, filtra evidencias, muestra posiciones con incertidumbre, abre la ficha de cada registro y permite incorporar otro JSON desde el bot�n **Cargar JSON**. Para verla localmente:
+
+```text
+python -m http.server 8766
+```
+
+Despu�s abre `http://localhost:8766/`. La vista es est�tica y no presenta una posici�n de pecio como exacta ni convierte la evidencia sint�tica en un hecho hist�rico.
+
+La primera versi�n contiene agentes deterministas que pueden ejecutarse sin una API de IA:
+
+- `investigador_de_fuentes`: descubre y registra nuevas fuentes del cat�logo local.
+- `buscador_de_evidencias`: recupera evidencias por t�rminos y variantes.
 - `extractor_de_entidades`: extrae barcos, lugares, fechas, cargas y personas.
 - `resolutor_de_entidades`: relaciona variantes de nombres.
 - `contraste`: detecta conflictos entre fuentes.
@@ -21,13 +31,13 @@ python main.py investigar-fuentes "naufragio Canarias"
 python main.py expediente "Santa Ana"
 ```
 
-La salida incluye citas con URL, título, tipo de fuente, fragmento, estado de verificación y fecha de acceso registrada. Los datos de `data/` son semillas públicas y una evidencia sintética claramente marcada para comprobar el flujo completo sin atribuir un naufragio ficticio a una fuente real.
+La salida incluye citas con URL, t�tulo, tipo de fuente, fragmento, estado de verificaci�n y fecha de acceso registrada. Los datos de `data/` son semillas p�blicas y una evidencia sint�tica claramente marcada para comprobar el flujo completo sin atribuir un naufragio ficticio a una fuente real.
 
 ## Fuentes iniciales
 
-El catálogo incluye PARES/Archivo General de Indias, BNE Digital, Gallica, Library of Congress y RNOD. La aplicación no descarga documentos ni evita restricciones de acceso: registra el catálogo, consulta adaptadores autorizados y conserva únicamente metadatos y evidencias permitidas.
+El cat�logo incluye PARES/Archivo General de Indias, BNE Digital, Gallica, Library of Congress y RNOD. La aplicaci�n no descarga documentos ni evita restricciones de acceso: registra el cat�logo, consulta adaptadores autorizados y conserva �nicamente metadatos y evidencias permitidas.
 
-## Estado de verificación
+## Estado de verificaci�n
 
-La puntuación no equivale a una identificación arqueológica. Un resultado puede pasar las pruebas de software y seguir necesitando revisión historiográfica, consulta del documento original, contraste independiente y permisos patrimoniales.
+La puntuaci�n no equivale a una identificaci�n arqueol�gica. Un resultado puede pasar las pruebas de software y seguir necesitando revisi�n historiogr�fica, consulta del documento original, contraste independiente y permisos patrimoniales.
 
