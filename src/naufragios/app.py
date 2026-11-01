@@ -17,7 +17,7 @@ def parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="naufragios")
     p.add_argument("--health", action="store_true", help="Comprueba el nucleo local")
     sub = p.add_subparsers(dest="command")
-    for name in ("buscar", "investigar-fuentes", "expediente", "investigar-persona"):
+    for name in ("buscar", "investigar-fuentes", "expediente", "investigar-persona", "amaro"):
         command = sub.add_parser(name)
         command.add_argument("query")
         if name == "investigar-fuentes":
@@ -41,7 +41,7 @@ def main() -> int:
         result = {"query": args.query, "source_discoveries": discoveries}
     elif args.command == "buscar":
         result = {"query": args.query, "results": result["results"]}
-    elif args.command == "investigar-persona":
+    elif args.command in ("investigar-persona", "amaro"):
         result = {"query": args.query, "person_research": ResearchOrchestrator(store).person.run(store)}
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0
