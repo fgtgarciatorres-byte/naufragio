@@ -56,3 +56,10 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(result[0]["source"]["id"], "pares-agi")
         self.assertEqual(result[0]["matched_terms"], ["armadas", "canarias"])
 
+    def test_legal_agent_finds_loss_and_merchandise_pleadings(self):
+        result = ResearchOrchestrator(store()).run("pleito mercanc�as Tenerife")
+        ids = {item["evidence"]["id"] for item in result["results"]}
+        self.assertIn("legal-lead-concepcion-1584", ids)
+        self.assertTrue(result["legal_records"])
+        self.assertTrue(any(item["source_id"] == "agi-pleitos-87489" for item in result["legal_records"]))
+
