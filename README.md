@@ -21,9 +21,12 @@ La primera versi�n contiene agentes deterministas que pueden ejecutarse sin un
 - `contraste`: detecta conflictos entre fuentes.
 - `cartografia`: construye GeoJSON con incertidumbre.
 - `investigador_de_pleitos`: identifica pleitos, reclamaciones, p�rdidas econ�micas, arribadas y mercanc�as como pistas jur�dicas separadas.
+- `investigador_persona_amaro_pargo`: agente independiente para Amaro Pargo, sus alias, red de barcos y personas, rutas Canarias-Caribe y fuentes espa�olas, francesas e inglesas.
 - `orquestador`: conecta todos los agentes y genera un expediente verificable.
 
 La etiqueta `legal_lead` significa que existe una pista jur�dica documentada. Una demanda, una reclamaci�n o un pleito de acreedores no confirma por s� solo un naufragio; el expediente original debe leerse y contrastarse.
+
+Para ejecutar el agente biogr�fico: `python main.py investigar-persona "Amaro Pargo"`. Devuelve alias, l�neas de b�squeda por idioma, rutas caribe�as, resultados vinculados y huecos pendientes. La subl�nea de La Laguna conserva referencias a protocolos notariales del AHPSCT, el fondo Ossuna y Santa Catalina de Siena.
 
 Se han incorporado tres entradas verificables de PARES: `ESCRIBANIA,1029A` (1661, pleito de acreedores sobre San Juan Coronado y Nuestra Se�ora de Regla), `ESCRIBANIA,1047A` (1695, reclamaci�n por el San Jos� y sus frutos) y la ficha `87489` (1584, arribada de La Concepci�n cargada de mercanc�as y referencia a un juez de registro de Tenerife).
 
