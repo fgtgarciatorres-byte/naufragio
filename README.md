@@ -27,6 +27,8 @@ La etiqueta `legal_lead` significa que existe una pista jur�dica documentada. 
 
 Se han incorporado tres entradas verificables de PARES: `ESCRIBANIA,1029A` (1661, pleito de acreedores sobre San Juan Coronado y Nuestra Se�ora de Regla), `ESCRIBANIA,1047A` (1695, reclamaci�n por el San Jos� y sus frutos) y la ficha `87489` (1584, arribada de La Concepci�n cargada de mercanc�as y referencia a un juez de registro de Tenerife).
 
+La cobertura canaria incluye ahora El Museo Canario, su biblioteca y la red BICA, los Archivos Hist�ricos Provinciales de Las Palmas y Santa Cruz de Tenerife, Memoria Digital de Canarias, Jable, LAVA y una gu�a digital de fondos del AGI conservada en la ULPGC. Esta �ltima se�ala expedientes de 1756-1764 sobre permisos de navegaci�n, registros de nav�os, cargas, entradas y salidas en Canaria y Tenerife.
+
 ## Ejecutar
 
 ```text
