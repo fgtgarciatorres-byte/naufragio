@@ -191,16 +191,17 @@ class ContradictionDetector:
     def compare(self, hits: list[SearchHit]) -> list[dict[str, Any]]:
         # Los rangos del cat�logo describen fondos, no fechas de naufragios.
         # Solo se contrastan a�os exactos ligados a una entidad barco.
-        event_hits = [
-            hit for hit in hits
-            if hit.evidence.date
-            and re.fullmatch(r"\d{4}", hit.evidence.date)
-            and hit.evidence.entities.get("ship")
-        ]
-        dates = Counter(hit.evidence.date for hit in event_hits)
-        if len(dates) < 2:
-            return []
-        return [{"agent": self.name, "type": "date_conflict", "values": dict(dates), "evidence_ids": [hit.evidence.id for hit in event_hits]}]
+        by_ship: dict[str, list[SearchHit]] = {}
+        for hit in hits:
+            if hit.evidence.date and re.fullmatch(r"\d{4}", hit.evidence.date):
+                for ship in hit.evidence.entities.get("ship", []):
+                    by_ship.setdefault(ship.casefold(), []).append(hit)
+        conflicts = []
+        for ship, event_hits in by_ship.items():
+            dates = Counter(hit.evidence.date for hit in event_hits)
+            if len(dates) > 1:
+                conflicts.append({"agent": self.name, "type": "date_conflict", "ship": ship, "values": dict(dates), "evidence_ids": [hit.evidence.id for hit in event_hits]})
+        return conflicts
 
 
 class CartographyAgent:
