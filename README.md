@@ -20,7 +20,12 @@ La primera versi�n contiene agentes deterministas que pueden ejecutarse sin un
 - `resolutor_de_entidades`: relaciona variantes de nombres.
 - `contraste`: detecta conflictos entre fuentes.
 - `cartografia`: construye GeoJSON con incertidumbre.
+- `investigador_de_pleitos`: identifica pleitos, reclamaciones, p�rdidas econ�micas, arribadas y mercanc�as como pistas jur�dicas separadas.
 - `orquestador`: conecta todos los agentes y genera un expediente verificable.
+
+La etiqueta `legal_lead` significa que existe una pista jur�dica documentada. Una demanda, una reclamaci�n o un pleito de acreedores no confirma por s� solo un naufragio; el expediente original debe leerse y contrastarse.
+
+Se han incorporado tres entradas verificables de PARES: `ESCRIBANIA,1029A` (1661, pleito de acreedores sobre San Juan Coronado y Nuestra Se�ora de Regla), `ESCRIBANIA,1047A` (1695, reclamaci�n por el San Jos� y sus frutos) y la ficha `87489` (1584, arribada de La Concepci�n cargada de mercanc�as y referencia a un juez de registro de Tenerife).
 
 ## Ejecutar
 
