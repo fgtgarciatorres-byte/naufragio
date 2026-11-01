@@ -86,6 +86,53 @@ class LegalRecordsAgent:
         return records
 
 
+class HistoricalPersonAgent:
+    """Investigador independiente para una persona y su red documental.
+
+    Separa las variantes nominales, los idiomas y las geograf�as de b�squeda.
+    Las coincidencias son pistas documentales, no una biograf�a validada.
+    """
+
+    name = "investigador_persona_amaro_pargo"
+    person = "Amaro Pargo"
+    aliases = ("Amaro Pargo", "Amaro Rodr�guez Felipe", "Amaro Rodriguez Felipe", "Amaro Rodr�guez Phelipe", "Amaro Pargo de Barrios")
+    lanes = {
+        "es": ("Canarias", "La Laguna", "Tenerife", "Santo Domingo", "La Habana", "Caracas", "Cuba"),
+        "fr": ("Antilles", "Martinique", "Guadeloupe", "corsaire", "prise", "navire"),
+        "en": ("Caribbean", "Jamaica", "privateer", "prize", "ship", "admiralty"),
+    }
+    laguna_leads = [
+        {"id": "amaro-siervita-protocolos-1738", "type": "primary_reference", "reference": "AHPSCT, Protocolos notariales, legajo 951, ff. 186r-191v, La Laguna, 8/07/1738", "subject": "memorias y aniversarios en Santa Catalina y Santo Domingo por sor Mar�a de Jes�s"},
+        {"id": "amaro-siervita-exhumacion-1734", "type": "primary_reference", "reference": "AHPSCT, protocolos notariales sobre exhumaci�n de 1734; edici�n documental de Amaro Pargo. Documentos de una vida", "subject": "exhumaci�n, gastos funerarios y sarc�fago de sor Mar�a de Jes�s"},
+        {"id": "laguna-amaro-ossuna", "type": "archive_route", "reference": "Fondo Ossuna, Archivo Municipal de La Laguna", "subject": "registro de bienes de Amaro Pargo"},
+    ]
+
+    def run(self, store: EvidenceStore) -> dict[str, Any]:
+        selected = []
+        aliases = {alias.casefold() for alias in self.aliases}
+        for evidence in store.evidence:
+            haystack = " ".join((evidence.title, evidence.text, evidence.quote, *(v for values in evidence.entities.values() for v in values))).casefold()
+            matched = sorted(alias for alias in aliases if alias in haystack)
+            if matched:
+                selected.append({"evidence": asdict(evidence), "source": asdict(store.source_for(evidence)), "matched_aliases": matched, "agent": self.name})
+        language_sources = {
+            language: [asdict(source) for source in store.sources.values() if language in source.languages]
+            for language in self.lanes
+        }
+        return {
+            "agent": self.name,
+            "person": self.person,
+            "aliases": list(self.aliases),
+            "geographies": ["Canarias", "Caribe", "Antillas francesas", "rutas brit�nicas del Caribe"],
+            "source_lanes": self.lanes,
+            "laguna_leads": self.laguna_leads,
+            "language_sources": language_sources,
+            "results": selected,
+            "gaps": ["documentos franceses con coincidencia nominal directa", "registros ingleses de presas o tribunales del Almirantazgo", "nombres y fechas de todos los viajes caribe�os"],
+            "verification_rule": "Una coincidencia nominal se conserva como pista; la biograf�a exige documento, signatura, contexto y contraste independiente.",
+        }
+
+
 class EntityExtractor:
     name = "extractor_de_entidades"
 
@@ -161,6 +208,7 @@ class ResearchOrchestrator:
         self.sources = SourceResearcher()
         self.searcher = EvidenceSearcher()
         self.legal = LegalRecordsAgent()
+        self.person = HistoricalPersonAgent()
         self.extractor = EntityExtractor()
         self.resolver = EntityResolver()
         self.contraster = ContradictionDetector()
@@ -177,6 +225,7 @@ class ResearchOrchestrator:
                 for hit in hits
             ],
             "legal_records": self.legal.classify(hits),
+            "person_research": self.person.run(self.store) if any(term in query.casefold() for term in ("amaro", "pargo", "rodr�guez felipe", "rodriguez felipe")) else None,
             "entities": extracted,
             "resolved_entities": self.resolver.resolve(extracted),
             "contradictions": self.contraster.compare(hits),
