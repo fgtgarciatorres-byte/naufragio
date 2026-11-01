@@ -20,7 +20,7 @@ class PipelineTests(unittest.TestCase):
     def test_autonomous_search_keeps_citations(self):
         result = ResearchOrchestrator(store()).run("Santa Ana Canarias")
         self.assertTrue(result["results"])
-        first = result["results"][0]
+        first = next(item for item in result["results"] if item["evidence"]["id"] == "fixture-santa-ana-01")
         self.assertTrue(first["source"]["url"].startswith("https://"))
         self.assertTrue(first["evidence"]["quote"])
         self.assertEqual(first["evidence"]["verification"], "synthetic_fixture")
@@ -35,7 +35,8 @@ class PipelineTests(unittest.TestCase):
 
     def test_agents_interoperate_and_export_map(self):
         result = ResearchOrchestrator(store()).run("Santa Ana")
-        self.assertEqual(result["entities"][0]["entities"]["ship"], ["Santa Ana"])
+        fixture_index = next(index for index, item in enumerate(result["results"]) if item["evidence"]["id"] == "fixture-santa-ana-01")
+        self.assertEqual(result["entities"][fixture_index]["entities"]["ship"], ["Santa Ana"])
         self.assertEqual(result["map"]["type"], "FeatureCollection")
         self.assertEqual(result["map"]["features"][0]["properties"]["uncertainty_m"], 25000)
 
