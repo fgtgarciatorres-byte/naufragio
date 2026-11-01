@@ -12,7 +12,7 @@ from .store import EvidenceStore
 
 
 def _terms(query: str) -> list[str]:
-    return [term.casefold() for term in re.findall(r"[\wÁÉÍÓÚÜÑáéíóúüñ-]+", query) if len(term) > 2]
+    return [term.casefold() for term in re.findall(r"[\w����隥�������-]+", query) if len(term) > 2]
 
 
 class SourceResearcher:
@@ -66,12 +66,32 @@ class EvidenceSearcher:
         return sorted(hits, key=lambda hit: (-hit.score, hit.evidence.id))
 
 
+class LegalRecordsAgent:
+    """Detecta se�ales de pleito, p�rdida econ�mica o reclamaci�n.
+
+    La etiqueta es una pista de investigaci�n. No convierte el expediente en
+    prueba de naufragio: esa decisi�n exige leer el documento y contrastarlo.
+    """
+
+    name = "investigador_de_pleitos"
+    TERMS = ("pleito", "litigio", "demanda", "autos", "acreedores", "dejaci�n", "p�rdida", "reclamaci�n", "arribada", "mercanc�as", "frutos", "rescate", "prorrateo", "consignatarios")
+
+    def classify(self, hits: list[SearchHit]) -> list[dict[str, Any]]:
+        records = []
+        for hit in hits:
+            text = " ".join((hit.evidence.title, hit.evidence.text, hit.evidence.quote)).casefold()
+            signals = sorted({term for term in self.TERMS if term in text})
+            if signals or hit.source.source_type == "pleitos de justicia":
+                records.append({"evidence_id": hit.evidence.id, "source_id": hit.source.id, "signals": signals, "agent": self.name, "interpretation": "pista jur�dica; requiere lectura del expediente"})
+        return records
+
+
 class EntityExtractor:
     name = "extractor_de_entidades"
 
     PATTERNS = {
         "date": r"\b(?:14|15|16|17)\d{2}\b",
-        "ship": r"(?:nav[ií]o|fragata|gale[oó]n|bergant[ií]n)\s+([A-ZÁÉÍÓÚÑ][\wÁÉÍÓÚÜÑáéíóúüñ-]*(?:\s+[A-ZÁÉÍÓÚÑ][\wÁÉÍÓÚÜÑáéíóúüñ-]*){0,3})",
+        "ship": r"(?:nav[i�]o|fragata|gale[o�]n|bergant[i�]n)\s+([A-Z�����][\w����隥�������-]*(?:\s+[A-Z�����][\w����隥�������-]*){0,3})",
         "place": r"\b(Canarias|Tenerife|Gran Canaria|La Gomera|Lanzarote|Fuerteventura|El Hierro|La Palma)\b",
     }
 
@@ -102,8 +122,8 @@ class ContradictionDetector:
     name = "contraste"
 
     def compare(self, hits: list[SearchHit]) -> list[dict[str, Any]]:
-        # Los rangos del catálogo describen fondos, no fechas de naufragios.
-        # Solo se contrastan años exactos ligados a una entidad barco.
+        # Los rangos del cat�logo describen fondos, no fechas de naufragios.
+        # Solo se contrastan a�os exactos ligados a una entidad barco.
         event_hits = [
             hit for hit in hits
             if hit.evidence.date
@@ -140,6 +160,7 @@ class ResearchOrchestrator:
         self.store = store
         self.sources = SourceResearcher()
         self.searcher = EvidenceSearcher()
+        self.legal = LegalRecordsAgent()
         self.extractor = EntityExtractor()
         self.resolver = EntityResolver()
         self.contraster = ContradictionDetector()
@@ -155,10 +176,11 @@ class ResearchOrchestrator:
                 {"evidence": asdict(hit.evidence), "source": asdict(hit.source), "score": hit.score, "matched_terms": hit.matched_terms}
                 for hit in hits
             ],
+            "legal_records": self.legal.classify(hits),
             "entities": extracted,
             "resolved_entities": self.resolver.resolve(extracted),
             "contradictions": self.contraster.compare(hits),
             "map": self.map.geojson(hits),
-            "verification_rule": "Cada resultado conserva fuente, URL, cita y estado de verificación.",
+            "verification_rule": "Cada resultado conserva fuente, URL, cita y estado de verificaci�n.",
         }
 
