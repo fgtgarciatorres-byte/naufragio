@@ -86,6 +86,26 @@ class LegalRecordsAgent:
         return records
 
 
+class PatrimonialAgent:
+    name = "investigador_patrimonial_amaro"
+    terms = ("testamento", "herencia", "heredero", "inventario", "bienes", "casa", "casas", "vivienda", "calle real", "san agust�n", "mayorazgo", "vi�a", "tierras", "tributos", "censos", "hacienda", "fortuna")
+
+    def run(self, store: EvidenceStore) -> dict[str, Any]:
+        results = []
+        for evidence in store.evidence:
+            text = " ".join((evidence.title, evidence.text, evidence.quote)).casefold()
+            signals = sorted({term for term in self.terms if term in text})
+            if signals and any(alias in text for alias in ("amaro", "rodr�guez felipe", "rodriguez felipe")):
+                results.append({"evidence": asdict(evidence), "source": asdict(store.source_for(evidence)), "signals": signals, "agent": self.name})
+        return {
+            "agent": self.name,
+            "search_terms": list(self.terms),
+            "results": results,
+            "property_lanes": ["testamento de 1746", "inventario de 1747", "fondo Ossuna", "Libro de bienes y haciendas", "mayorazgos", "protocolos notariales", "pleitos sucesorios"],
+            "rule": "La propiedad se considera localizada solo con signatura, documento y contraste; una cifra secundaria se conserva como estimaci�n, no como inventario definitivo.",
+        }
+
+
 class HistoricalPersonAgent:
     """Investigador independiente para una persona y su red documental.
 
@@ -209,6 +229,7 @@ class ResearchOrchestrator:
         self.searcher = EvidenceSearcher()
         self.legal = LegalRecordsAgent()
         self.person = HistoricalPersonAgent()
+        self.patrimony = PatrimonialAgent()
         self.extractor = EntityExtractor()
         self.resolver = EntityResolver()
         self.contraster = ContradictionDetector()
@@ -225,11 +246,18 @@ class ResearchOrchestrator:
                 for hit in hits
             ],
             "legal_records": self.legal.classify(hits),
-            "person_research": self.person.run(self.store) if any(term in query.casefold() for term in ("amaro", "pargo", "rodr�guez felipe", "rodriguez felipe")) else None,
+            "person_research": self._person_research(query),
             "entities": extracted,
             "resolved_entities": self.resolver.resolve(extracted),
             "contradictions": self.contraster.compare(hits),
             "map": self.map.geojson(hits),
             "verification_rule": "Cada resultado conserva fuente, URL, cita y estado de verificaci�n.",
         }
+
+    def _person_research(self, query: str) -> dict[str, Any] | None:
+        if not any(term in query.casefold() for term in ("amaro", "pargo", "rodr�guez felipe", "rodriguez felipe")):
+            return None
+        result = self.person.run(self.store)
+        result["patrimonial_research"] = self.patrimony.run(self.store)
+        return result
 
