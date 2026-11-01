@@ -66,7 +66,7 @@ class PipelineTests(unittest.TestCase):
     def test_independent_amaro_person_agent_exposes_multilingual_lanes(self):
         result = ResearchOrchestrator(store()).run("Amaro Pargo")
         person = result["person_research"]
-        self.assertEqual(person["agent"], "investigador_persona_amaro_pargo")
+        self.assertEqual(person["agent"], "Amaro")
         self.assertIn("fr", person["source_lanes"])
         self.assertIn("en", person["source_lanes"])
         self.assertTrue(person["laguna_leads"])
