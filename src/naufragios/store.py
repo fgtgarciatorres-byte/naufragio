@@ -19,6 +19,9 @@ class EvidenceStore:
         supplemental_path = evidence_path.with_name("amaro_laguna_evidence.json")
         if supplemental_path.exists():
             rows.extend(json.loads(supplemental_path.read_text(encoding="utf-8")))
+        patrimony_path = evidence_path.with_name("amaro_patrimony_evidence.json")
+        if patrimony_path.exists():
+            rows.extend(json.loads(patrimony_path.read_text(encoding="utf-8")))
         evidence = [evidence_from_dict(row) for row in rows]
         return cls(sources, evidence)
 
