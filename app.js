@@ -17,7 +17,7 @@ async function loadAtlas() {
 }
 
 function sourceFor(item) { return state.sources.find((source) => source.id === item.source_id) || {}; }
-function labelFor(status) { return status === "synthetic_fixture" ? "PRUEBA SINT�TICA" : status === "catalogue_verified" ? "CAT�LOGO VERIFICADO" : "SIN REVISAR"; }
+function labelFor(status) { return status === "synthetic_fixture" ? "PRUEBA SINT�TICA" : status === "catalogue_verified" ? "CAT�LOGO VERIFICADO" : status === "legal_lead" ? "PISTA JUR�DICA" : "SIN REVISAR"; }
 function searchable(item) { const source = sourceFor(item); return [item.title, item.text, item.quote, item.date, ...(item.entities?.ship || []), ...(item.entities?.place || []), source.title, source.publisher].join(" ").toLocaleLowerCase(); }
 
 function renderAll() {
