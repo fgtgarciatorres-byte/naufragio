@@ -26,7 +26,7 @@ La primera versi�n contiene agentes deterministas que pueden ejecutarse sin un
 
 La etiqueta `legal_lead` significa que existe una pista jur�dica documentada. Una demanda, una reclamaci�n o un pleito de acreedores no confirma por s� solo un naufragio; el expediente original debe leerse y contrastarse.
 
-Para ejecutar el agente biogr�fico: `python main.py amaro "Amaro Pargo"`. Devuelve alias, l�neas de b�squeda por idioma, rutas caribe�as, resultados vinculados y huecos pendientes. La subl�nea de La Laguna conserva referencias a protocolos notariales del AHPSCT, el fondo Ossuna y Santa Catalina de Siena.
+Para ejecutar el agente biogr�fico: `python main.py amaro "Amaro Pargo"`. Devuelve alias, l�neas de b�squeda por idioma, propiedades, herencias, inventarios, rutas caribe�as, resultados vinculados y huecos pendientes. La subl�nea de La Laguna conserva referencias a protocolos notariales del AHPSCT, el fondo Ossuna y Santa Catalina de Siena.
 
 Se han incorporado tres entradas verificables de PARES: `ESCRIBANIA,1029A` (1661, pleito de acreedores sobre San Juan Coronado y Nuestra Se�ora de Regla), `ESCRIBANIA,1047A` (1695, reclamaci�n por el San Jos� y sus frutos) y la ficha `87489` (1584, arribada de La Concepci�n cargada de mercanc�as y referencia a un juez de registro de Tenerife).
 
