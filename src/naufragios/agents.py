@@ -93,7 +93,7 @@ class HistoricalPersonAgent:
     Las coincidencias son pistas documentales, no una biograf�a validada.
     """
 
-    name = "investigador_persona_amaro_pargo"
+    name = "Amaro"
     person = "Amaro Pargo"
     aliases = ("Amaro Pargo", "Amaro Rodr�guez Felipe", "Amaro Rodriguez Felipe", "Amaro Rodr�guez Phelipe", "Amaro Pargo de Barrios")
     lanes = {
