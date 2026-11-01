@@ -70,4 +70,5 @@ class PipelineTests(unittest.TestCase):
         self.assertIn("fr", person["source_lanes"])
         self.assertIn("en", person["source_lanes"])
         self.assertTrue(person["laguna_leads"])
+        self.assertIn("patrimonial_research", person)
 
