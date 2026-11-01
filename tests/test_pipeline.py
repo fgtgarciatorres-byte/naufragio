@@ -63,3 +63,11 @@ class PipelineTests(unittest.TestCase):
         self.assertTrue(result["legal_records"])
         self.assertTrue(any(item["source_id"] == "agi-pleitos-87489" for item in result["legal_records"]))
 
+    def test_independent_amaro_person_agent_exposes_multilingual_lanes(self):
+        result = ResearchOrchestrator(store()).run("Amaro Pargo")
+        person = result["person_research"]
+        self.assertEqual(person["agent"], "investigador_persona_amaro_pargo")
+        self.assertIn("fr", person["source_lanes"])
+        self.assertIn("en", person["source_lanes"])
+        self.assertTrue(person["laguna_leads"])
+
